@@ -1,22 +1,22 @@
-import { JsonPipe } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { JsonPipe } from "@angular/common";
+import { Component, OnInit } from "@angular/core";
 import {
   BarcodeScanner,
   BarcodeFormat,
   LensFacing,
-} from '@capacitor-mlkit/barcode-scanning';
+} from "@capacitor-mlkit/barcode-scanning";
 
 // https://www.npmjs.com/package/@capacitor-mlkit/barcode-scanning
 @Component({
-  selector: 'app-qr-test',
+  selector: "app-qr-test",
   standalone: true,
   imports: [JsonPipe],
-  templateUrl: './qr-test.component.html',
-  styleUrls: ['./qr-test.component.scss'],
+  templateUrl: "./qr-test.component.html",
+  styleUrls: ["./qr-test.component.scss"],
 })
 export class QrTestComponent implements OnInit {
-  data: any = { estado: 'esperando' };
-  error: any = { estado: 'esperando' };
+  data: any = { estado: "esperando" };
+  error: any = { estado: "esperando" };
   constructor() {
     this.instalarGoogleBarcodeScannerModule();
   }
@@ -39,11 +39,11 @@ export class QrTestComponent implements OnInit {
       // However, this means that you have to hide all elements that should not be visible.
       // You can find an example in our demo repository.
       // In this case we set a class `barcode-scanner-active`, which then contains certain CSS rules for our app.
-      document.querySelector('body')?.classList.add('barcode-scanner-active');
+      document.querySelector("body")?.classList.add("barcode-scanner-active");
 
       // Add the `barcodeScanned` listener
       const listener = await BarcodeScanner.addListener(
-        'barcodeScanned',
+        "barcodeScanned",
         async (result) => {
           console.log(result.barcode);
           this.data = result.barcode;
@@ -61,8 +61,8 @@ export class QrTestComponent implements OnInit {
     {
       // Make all elements in the WebView visible again
       document
-        .querySelector('body')
-        ?.classList.remove('barcode-scanner-active');
+        .querySelector("body")
+        ?.classList.remove("barcode-scanner-active");
 
       // Remove all listeners
       await BarcodeScanner.removeAllListeners();
@@ -74,15 +74,15 @@ export class QrTestComponent implements OnInit {
 
   async scanSingleBarcode() {
     return new Promise(async (resolve) => {
-      document.querySelector('body')?.classList.add('barcode-scanner-active');
+      document.querySelector("body")?.classList.add("barcode-scanner-active");
 
       const listener = await BarcodeScanner.addListener(
-        'barcodeScanned',
+        "barcodeScanned",
         async (result) => {
           await listener.remove();
           document
-            .querySelector('body')
-            ?.classList.remove('barcode-scanner-active');
+            .querySelector("body")
+            ?.classList.remove("barcode-scanner-active");
           await BarcodeScanner.stopScan();
           resolve(result.barcode);
         }
@@ -95,7 +95,7 @@ export class QrTestComponent implements OnInit {
   async scan() {
     try {
       /*
-      // Usarlo sin formato, para poder usar el QR del dni
+      // Usarlo sin indicar el formato, para poder usar el QR del dni
       const { barcodes } = await BarcodeScanner.scan({
         formats: [BarcodeFormat.QrCode],
       });
